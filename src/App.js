@@ -35,7 +35,7 @@ const App = (props) => {
 
   return (
     <Container maxWidth="lg" className={classes.root}>
-      <h1>Patient List</h1>
+      <h1>รายชื่อผู้ป่วย</h1>
       <PatientTable
         patients={patients}
         sortOption={sortOption}

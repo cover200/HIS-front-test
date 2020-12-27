@@ -33,23 +33,23 @@ const DisplayDate = ({ dateString }) => {
 
 const headRows = [
   [
-    { label: "ID", key: "id", align: "center", rowSpan: 2, colSpan: 1 },
+    { label: "รหัส", key: "id", align: "center", rowSpan: 2, colSpan: 1 },
     {
-      label: "Firstname",
+      label: "ชื่อ",
       key: "firstName",
       align: "left",
       rowSpan: 2,
       colSpan: 1,
     },
     {
-      label: "Lastname",
+      label: "นามสกุล",
       key: "lastName",
       align: "left",
       rowSpan: 2,
       colSpan: 1,
     },
     {
-      label: "Date",
+      label: "วันที่",
       key: null,
       align: "center",
       rowSpan: 1,
@@ -58,14 +58,14 @@ const headRows = [
   ],
   [
     {
-      label: "Check-in",
+      label: "เข้า",
       key: "checkIn",
       align: "center",
       rowSpan: 1,
       colSpan: 1,
     },
     {
-      label: "Check-out",
+      label: "ออก",
       key: "checkOut",
       align: "center",
       rowSpan: 1,
