@@ -14,15 +14,18 @@ import { makeStyles } from "@material-ui/core/styles";
 import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
-  tableHeader: {
+  headerBackground: {
     "background-color": theme.palette.primary.main,
   },
   headerFont: {
     color: theme.palette.common.white,
     "font-weight": 600,
   },
-  each2ndRow: {
+  bodyEach2ndRow: {
     "background-color": "#f9f5f5",
+  },
+  bodyFont: {
+    color: theme.palette.common.black,
   },
 }));
 
@@ -39,25 +42,22 @@ const DisplayDate = ({ dateString }) => {
 
 const headRows = [
   [
-    { label: "รหัส", key: "id", align: "center", rowSpan: 2, colSpan: 1 },
+    { label: "รหัส", key: "id", rowSpan: 2, colSpan: 1 },
     {
       label: "ชื่อ",
       key: "firstName",
-      align: "left",
       rowSpan: 2,
       colSpan: 1,
     },
     {
       label: "นามสกุล",
       key: "lastName",
-      align: "left",
       rowSpan: 2,
       colSpan: 1,
     },
     {
       label: "วันที่",
       key: null,
-      align: "center",
       rowSpan: 1,
       colSpan: 2,
     },
@@ -66,14 +66,12 @@ const headRows = [
     {
       label: "เข้า",
       key: "checkIn",
-      align: "center",
       rowSpan: 1,
       colSpan: 1,
     },
     {
       label: "ออก",
       key: "checkOut",
-      align: "center",
       rowSpan: 1,
       colSpan: 1,
     },
@@ -108,14 +106,14 @@ const PatientTable = ({ patients, filterOption, updateFilterOption }) => {
     <>
       <TableContainer component={Paper}>
         <Table>
-          <TableHead className={classes.tableHeader}>
+          <TableHead className={classes.headerBackground}>
             {headRows.map((row, index) => (
               <TableRow key={index}>
                 {row.map((headCell) => (
                   <TableCell
                     key={headCell.label}
                     className={classes.headerFont}
-                    align={headCell.align}
+                    align="center"
                     rowSpan={headCell.rowSpan}
                     colSpan={headCell.colSpan}
                   >
@@ -144,15 +142,21 @@ const PatientTable = ({ patients, filterOption, updateFilterOption }) => {
             {patients.map((patient, index) => (
               <TableRow
                 key={patient.id}
-                className={index % 2 ? classes.each2ndRow : ""}
+                className={index % 2 ? classes.bodyEach2ndRow : ""}
               >
-                <TableCell align="center">{patient.id}</TableCell>
-                <TableCell>{patient.firstName}</TableCell>
-                <TableCell>{patient.lastName}</TableCell>
-                <TableCell align="center">
+                <TableCell className={classes.bodyFont} align="center">
+                  {patient.id}
+                </TableCell>
+                <TableCell className={classes.bodyFont}>
+                  {patient.firstName}
+                </TableCell>
+                <TableCell className={classes.bodyFont}>
+                  {patient.lastName}
+                </TableCell>
+                <TableCell className={classes.bodyFont} align="center">
                   <DisplayDate dateString={patient.checkIn} />
                 </TableCell>
-                <TableCell align="center">
+                <TableCell className={classes.bodyFont} align="center">
                   <DisplayDate dateString={patient.checkOut} />
                 </TableCell>
               </TableRow>
