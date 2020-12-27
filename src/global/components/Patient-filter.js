@@ -72,20 +72,31 @@ const PatientFilter = (props) => {
     setFilterDate(date);
 
     if (!date) {
-      props.updateFilterOption({ ...props.filterOption, date });
+      const pagination = resetPagination();
+      props.updateFilterOption({ ...props.filterOption, pagination, date });
     }
   };
 
-  const fetchByKeyword = (id = keyword) =>
-    props.updateFilterOption({ ...props.filterOption, keyword: id });
-
-  const submit = () => {
+  const fetchByKeyword = (id = keyword) => {
+    const pagination = resetPagination();
     props.updateFilterOption({
       ...props.filterOption,
+      pagination,
+      keyword: id,
+    });
+  };
+
+  const submit = () => {
+    const pagination = resetPagination();
+    props.updateFilterOption({
+      ...props.filterOption,
+      pagination,
       keyword,
       date: filterDate,
     });
   };
+
+  const resetPagination = () => ({ ...props.filterOption.pagination, page: 0 });
 
   return (
     <div className={classes.root}>

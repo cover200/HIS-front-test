@@ -100,7 +100,7 @@ const PatientTable = ({ patients, filterOption, updateFilterOption }) => {
 
   const handleChangePerPage = (event) => {
     const perPage = event.target.value;
-    const pagination = { ...filterOption.pagination, perPage };
+    const pagination = { ...filterOption.pagination, page: 0, perPage };
     updateFilterOption({ ...filterOption, pagination });
   };
 
