@@ -17,14 +17,15 @@ const useStyles = makeStyles((theme) => ({
   headerBackground: {
     "background-color": theme.palette.primary.main,
   },
-  headerFont: {
+  headerCell: {
+    border: "1px solid " + theme.palette.grey[300],
     color: theme.palette.common.white,
     "font-weight": 600,
   },
   bodyEach2ndRow: {
     "background-color": "#f9f5f5",
   },
-  bodyFont: {
+  bodyCell: {
     color: theme.palette.common.black,
   },
 }));
@@ -112,7 +113,7 @@ const PatientTable = ({ patients, filterOption, updateFilterOption }) => {
                 {row.map((headCell) => (
                   <TableCell
                     key={headCell.label}
-                    className={classes.headerFont}
+                    className={classes.headerCell}
                     align="center"
                     rowSpan={headCell.rowSpan}
                     colSpan={headCell.colSpan}
@@ -144,19 +145,19 @@ const PatientTable = ({ patients, filterOption, updateFilterOption }) => {
                 key={patient.id}
                 className={index % 2 ? classes.bodyEach2ndRow : ""}
               >
-                <TableCell className={classes.bodyFont} align="center">
+                <TableCell className={classes.bodyCell} align="center">
                   {patient.id}
                 </TableCell>
-                <TableCell className={classes.bodyFont}>
+                <TableCell className={classes.bodyCell}>
                   {patient.firstName}
                 </TableCell>
-                <TableCell className={classes.bodyFont}>
+                <TableCell className={classes.bodyCell}>
                   {patient.lastName}
                 </TableCell>
-                <TableCell className={classes.bodyFont} align="center">
+                <TableCell className={classes.bodyCell} align="center">
                   <DisplayDate dateString={patient.checkIn} />
                 </TableCell>
-                <TableCell className={classes.bodyFont} align="center">
+                <TableCell className={classes.bodyCell} align="center">
                   <DisplayDate dateString={patient.checkOut} />
                 </TableCell>
               </TableRow>
