@@ -1,5 +1,7 @@
 import { combineReducers } from "redux";
 
-const reducers = {};
+import appState from "./app.reducer";
+
+const reducers = { appState };
 
 export default combineReducers(reducers);
