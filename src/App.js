@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { fetchAllData } from "actions/patient.action";
+import { fetchAllData, getDataCount } from "actions/patient.action";
 import PatientTable from "global/components/Patient-table";
 import LoadingDialog from "global/components/dialogs/Loading-dialog";
 
@@ -18,15 +18,33 @@ const useStyles = makeStyles((theme) => ({
 const App = (props) => {
   const classes = useStyles();
   const [patients, setPatient] = useState([]);
-  const [sortOption, setSortOption] = useState({ key: "id", direction: "asc" });
+  const [filterOption, setFilterOption] = useState({
+    pagination: { page: 0, perPage: 5, total: 0 },
+    sort: { key: "id", direction: "asc" },
+    keyword: "",
+  });
+
+  useEffect(() => {
+    getDataCount();
+  }, []);
+
+  const getDataCount = async () => {
+    try {
+      const count = await props.getDataCount();
+      filterOption.pagination.total = count;
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   useEffect(() => {
     fetchData();
-  }, [sortOption]);
+  }, [filterOption]);
 
   const fetchData = async () => {
+    const { sort, pagination } = filterOption;
     try {
-      const { data } = await props.fetchAllData(sortOption);
+      const { data } = await props.fetchAllData(sort, pagination);
       setPatient(data);
     } catch (e) {
       console.error(e);
@@ -38,8 +56,8 @@ const App = (props) => {
       <h1>รายชื่อผู้ป่วย</h1>
       <PatientTable
         patients={patients}
-        sortOption={sortOption}
-        updateSortOption={setSortOption}
+        filterOption={filterOption}
+        updateFilterOption={setFilterOption}
       />
 
       <LoadingDialog />
@@ -51,6 +69,7 @@ const mapStateToProps = () => ({});
 
 const mapDispatchToProps = {
   fetchAllData,
+  getDataCount,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

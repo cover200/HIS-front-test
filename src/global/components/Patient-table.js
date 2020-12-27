@@ -6,6 +6,8 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  TableFooter,
+  TablePagination,
   Paper,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -18,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
   headerFont: {
     color: theme.palette.common.white,
     "font-weight": 600,
+  },
+  each2ndRow: {
+    "background-color": "#f9f5f5",
   },
 }));
 
@@ -74,16 +79,28 @@ const headRows = [
   ],
 ];
 
-const PatientTable = ({ patients, sortOption, updateSortOption }) => {
+const PatientTable = ({ patients, filterOption, updateFilterOption }) => {
   const classes = useStyles();
 
-  const setSortOption = (key) => {
-    let direction = "asc";
-    if (sortOption.key === key) {
-      direction = sortOption.direction === "asc" ? "desc" : "asc";
+  const handleChangeSort = (key) => {
+    const sort = { key, direction: "asc" };
+
+    if (filterOption.sort.key === key) {
+      sort.direction = filterOption.sort.direction === "asc" ? "desc" : "asc";
     }
 
-    updateSortOption({ key, direction });
+    updateFilterOption({ ...filterOption, sort });
+  };
+
+  const handleChangePage = (_, page) => {
+    const pagination = { ...filterOption.pagination, page };
+    updateFilterOption({ ...filterOption, pagination });
+  };
+
+  const handleChangePerPage = (event) => {
+    const perPage = event.target.value;
+    const pagination = { ...filterOption.pagination, perPage };
+    updateFilterOption({ ...filterOption, pagination });
   };
 
   return (
@@ -103,13 +120,13 @@ const PatientTable = ({ patients, sortOption, updateSortOption }) => {
                   >
                     {headCell.key ? (
                       <TableSortLabel
-                        active={sortOption.key === headCell.key}
+                        active={filterOption.sort.key === headCell.key}
                         direction={
-                          sortOption.key === headCell.key
-                            ? sortOption.direction
+                          filterOption.sort.key === headCell.key
+                            ? filterOption.sort.direction
                             : "asc"
                         }
-                        onClick={() => setSortOption(headCell.key)}
+                        onClick={() => handleChangeSort(headCell.key)}
                       >
                         {headCell.label}
                       </TableSortLabel>
@@ -123,8 +140,11 @@ const PatientTable = ({ patients, sortOption, updateSortOption }) => {
           </TableHead>
 
           <TableBody>
-            {patients.map((patient) => (
-              <TableRow key={patient.id}>
+            {patients.map((patient, index) => (
+              <TableRow
+                key={patient.id}
+                className={index % 2 ? classes.each2ndRow : ""}
+              >
                 <TableCell align="center">{patient.id}</TableCell>
                 <TableCell>{patient.firstName}</TableCell>
                 <TableCell>{patient.lastName}</TableCell>
@@ -137,6 +157,20 @@ const PatientTable = ({ patients, sortOption, updateSortOption }) => {
               </TableRow>
             ))}
           </TableBody>
+
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                count={filterOption.pagination.total}
+                rowsPerPage={filterOption.pagination.perPage}
+                page={filterOption.pagination.page}
+                labelRowsPerPage="Per page:"
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangePerPage}
+              />
+            </TableRow>
+          </TableFooter>
         </Table>
       </TableContainer>
     </>
