@@ -165,7 +165,10 @@ const PatientTable = ({ patients, filterOption, updateFilterOption }) => {
                 count={filterOption.pagination.total}
                 rowsPerPage={filterOption.pagination.perPage}
                 page={filterOption.pagination.page}
-                labelRowsPerPage="Per page:"
+                labelRowsPerPage="จำนวนข้อมูล:"
+                labelDisplayedRows={({ from, to, count }) =>
+                  `${from}-${to} จาก ${count}`
+                }
                 onChangePage={handleChangePage}
                 onChangeRowsPerPage={handleChangePerPage}
               />
