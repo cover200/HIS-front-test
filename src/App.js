@@ -24,15 +24,19 @@ const App = (props) => {
     pagination: { page: 0, perPage: 5, total: 0 },
     sort: { key: "id", direction: "asc" },
     keyword: "",
+    date: null,
   });
 
   useEffect(() => {
     getDataCount();
-  }, [filterOption.keyword]);
+  }, [filterOption.keyword, filterOption.date]);
 
   const getDataCount = async () => {
     try {
-      const data = await props.getAutocompleteIdList(filterOption.keyword);
+      const data = await props.getAutocompleteIdList(
+        filterOption.keyword,
+        filterOption.date
+      );
       const pagination = { ...filterOption.pagination, total: data.length };
       setFilterOption({ ...filterOption, pagination });
     } catch (e) {
@@ -47,6 +51,7 @@ const App = (props) => {
     filterOption.pagination.page,
     filterOption.pagination.perPage,
     filterOption.keyword,
+    filterOption.date,
   ]);
 
   const fetchData = async () => {
@@ -60,11 +65,12 @@ const App = (props) => {
 
   return (
     <Container maxWidth="lg" className={classes.root}>
-      <h1>รายชื่อผู้ป่วย</h1>
+      <h1 className="title">รายชื่อผู้ป่วย</h1>
 
       <PatientFilter
         filterOption={filterOption}
-        updateKeyword={setFilterOption}
+        updateFilterOption={setFilterOption}
+        submit={fetchData}
       />
 
       <PatientTable
