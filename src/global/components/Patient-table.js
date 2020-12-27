@@ -28,9 +28,10 @@ const useStyles = makeStyles((theme) => ({
 
 const DisplayDate = ({ dateString }) => {
   const date = moment(dateString);
+  const yearPlusOffset = +date.format("YYYY") + 543;
   return (
     <div style={{ textAlign: "center" }}>
-      <p>{date.format("DD/MM/YYYY")}</p>
+      <p>{date.format("DD/MM/") + yearPlusOffset}</p>
       <p>{date.format("HH:mm")}</p>
     </div>
   );
