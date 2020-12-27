@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { fetchAllData } from "actions/patient.action";
 import PatientTable from "global/components/Patient-table";
+import LoadingDialog from "global/components/dialogs/Loading-dialog";
 
 import "./App.css";
 
@@ -40,6 +41,8 @@ const App = (props) => {
         sortOption={sortOption}
         updateSortOption={setSortOption}
       />
+
+      <LoadingDialog />
     </Container>
   );
 };
