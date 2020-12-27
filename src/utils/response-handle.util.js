@@ -8,9 +8,7 @@ export const responseHandle = async (dispatch, request) => {
 };
 
 const errorHandle = (dispatch, error) => {
-  const { statusText, status, data } = error;
-  console.error(status);
-  console.error(statusText);
-  console.error(data);
+  const { data } = error;
+  alert("error");
   throw data;
 };

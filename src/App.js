@@ -29,7 +29,6 @@ const App = (props) => {
       setPatient(data);
     } catch (e) {
       console.error(e);
-      alert("error");
     }
   };
 
