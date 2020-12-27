@@ -3,14 +3,16 @@ import { connect } from "react-redux";
 import { Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { fetchAllData, getDataCount } from "actions/patient.action";
+import { fetchAllData, getAutocompleteIdList } from "actions/patient.action";
 import PatientTable from "global/components/Patient-table";
+import PatientFilter from "global/components/Patient-filter";
 import LoadingDialog from "global/components/dialogs/Loading-dialog";
 
 import "./App.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    "padding-top": 24,
     "padding-bottom": 50,
   },
 }));
@@ -26,12 +28,13 @@ const App = (props) => {
 
   useEffect(() => {
     getDataCount();
-  }, []);
+  }, [filterOption.keyword]);
 
   const getDataCount = async () => {
     try {
-      const count = await props.getDataCount();
-      filterOption.pagination.total = count;
+      const data = await props.getAutocompleteIdList(filterOption.keyword);
+      const pagination = { ...filterOption.pagination, total: data.length };
+      setFilterOption({ ...filterOption, pagination });
     } catch (e) {
       console.error(e);
     }
@@ -39,12 +42,16 @@ const App = (props) => {
 
   useEffect(() => {
     fetchData();
-  }, [filterOption]);
+  }, [
+    filterOption.sort,
+    filterOption.pagination.page,
+    filterOption.pagination.perPage,
+    filterOption.keyword,
+  ]);
 
   const fetchData = async () => {
-    const { sort, pagination } = filterOption;
     try {
-      const { data } = await props.fetchAllData(sort, pagination);
+      const { data } = await props.fetchAllData(filterOption);
       setPatient(data);
     } catch (e) {
       console.error(e);
@@ -54,6 +61,12 @@ const App = (props) => {
   return (
     <Container maxWidth="lg" className={classes.root}>
       <h1>รายชื่อผู้ป่วย</h1>
+
+      <PatientFilter
+        filterOption={filterOption}
+        updateKeyword={setFilterOption}
+      />
+
       <PatientTable
         patients={patients}
         filterOption={filterOption}
@@ -69,7 +82,7 @@ const mapStateToProps = () => ({});
 
 const mapDispatchToProps = {
   fetchAllData,
-  getDataCount,
+  getAutocompleteIdList,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
