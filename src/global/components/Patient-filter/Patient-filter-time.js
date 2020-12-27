@@ -36,7 +36,7 @@ const PatientFilterDate = ({
       <TimePicker
         className={classes.input}
         ampm={false}
-        label="เลือกเวลา"
+        label="เลือกเวลาที่ผู้ป่วยอยู่ระหว่างการรักษา"
         format="HH : mm"
         inputVariant="outlined"
         value={filterDate}

@@ -39,7 +39,7 @@ const PatientFilterDate = ({
       <DatePicker
         className={classes.input}
         autoOk
-        label="เลือกวันที่"
+        label="เลือกวันที่ผู้ป่วยอยู่ระหว่างการรักษา"
         format="DD/MM/YYYY"
         inputVariant="outlined"
         value={filterDate}
